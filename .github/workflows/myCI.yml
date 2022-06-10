@@ -73,7 +73,7 @@ jobs:
       run: |
         go mod init calc
         go get github.com/franela/goblin
-        go get github.com/tebeka/go2xunit 
+        go install github.com/tebeka/go2xunit@latest 
         go mod tidy
         go test -v
         go test -v | go2xunit -output tests.xml 
