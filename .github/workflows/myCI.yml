@@ -11,7 +11,7 @@ on:
 
 # jobs to execute
 jobs:
-  # build to specify name of the job
+  # build is name of the job if -name is not specified
   build:
     # name for printing
     name: Load OS
@@ -40,6 +40,23 @@ jobs:
     # clone repo to root of VM
     - name: Checkout Repo
       uses: actions/checkout@v2.4.2
+    
+    # clone remote private repo to root of VM
+    - name: Checkout Remote Private Repo
+      uses: actions/checkout@v2.4.2
+      with:
+        repository: lowkh2/GoSchoolRemoteExample
+        token: ${{ secrets.GOSECRET }}  
+        path: remote
+      
+    # check if files are corrected cloned in remote folder
+    # cat is to print out the content of myText.txt
+    - name: Check remote files
+      run: |
+        cd remote
+        ls
+        cat myText.txt
+        cd ..
       
     # check if files are corrected cloned
     - name: Check File System
