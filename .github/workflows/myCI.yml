@@ -46,9 +46,12 @@ jobs:
       run: ls
       
     # install go dependencies and run test
+    # go mod init calc
+    # go get dependecncies
+    # go mod tidy
+    # can be replaced by 
+    # go build
     - name: Install Go Dependencies and Run Test
       run: |
-        go mod init
-        go get github.com/franela/goblin
-        go mod tidy
+        go build
         go test -v
