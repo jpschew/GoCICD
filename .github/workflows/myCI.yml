@@ -1,1 +1,26 @@
+# name for the workflow
+# need space for key value pair
+name: CI for Go code
+# on is for event triggering like push, commit etc
+on:
+  push:
+  # which branch to monitor, can add more than one branch to monitor by using comma
+    branches: [main]
+  pull_request:
+    branches: [main]
 
+# jobs to execute
+jobs:
+  # build to specify name of the job
+  build:
+    # name for printing
+    name: Load OS
+    # runs-on to specify OS in virtual machine
+    runs-on: ubuntu-latest
+    # steps to run after OS is set up on VM
+    steps:
+    - name: Print hello
+      # run is to run command prompt/ terminal, | used for multiple lines
+      run: |
+        ls
+        echo Hello!!
