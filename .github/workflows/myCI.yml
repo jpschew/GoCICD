@@ -68,9 +68,33 @@ jobs:
     # go mod tidy
     # can be replaced by 
     # go build with go mod and go sum in the vm
+    # install tebeka to convert test results to xml format
     - name: Install Go Dependencies and Run Test
       run: |
         go mod init calc
         go get github.com/franela/goblin
+        go get github.com/tebeka/go2xunit 
         go mod tidy
         go test -v
+        go test -v | go2xunit -output tests.xml 
+        
+    # read xml and publish results
+    # The if: always() clause guarantees that this action always runs,
+    # even if earlier steps (e.g., the test step) in your workflow fail
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always() # can be with or without S{{}} 
+      with:
+        files: tests.xml
+        
+    # - specify another block
+    # for if condition need specify another block
+    - if: ${{ failure() }}
+      name: Create Issue Action
+      uses: nashmaniac/create-issue-action@v1.1
+      with:
+        title: Build Failed
+        token: ${{secrets.GITHUB_TOKEN}} # after creating the repo, will have a token created
+        assignees: ${{github.actor}} # actor is whoever trigger this yaml file
+        labels: workflow-failed
+        body: Workflow failed for commit ${{github.sha}} # sha is hashcode for commit
