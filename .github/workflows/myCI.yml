@@ -4,7 +4,7 @@ name: CI for Go code
 # on is for event triggering like push, commit etc
 on:
   push:
-  # which branch to monitor, can add more than one branch to monitor by using comma
+  # which branch to monitor, can add more than one branch to monitor by using comma within []
     branches: [main]
   pull_request:
     branches: [main]
@@ -24,15 +24,31 @@ jobs:
       run: |
         ls
         echo Hello!!
+        
+    # set up Go    
     - name: Setup Go
       # uses install the software you want from actions/ repo
       uses: actions/setup-go@v3.2.0
       # with is like a customisation command
       with:
         go-version: 1.18
+        
+    # check Go version
     - name: Check Go version
       run: go version
+      
+    # clone repo to root of VM
     - name: Checkout Repo
       uses: actions/checkout@v2.4.2
+      
+    # check if files are corrected cloned
     - name: Check File System
       run: ls
+      
+    # install go dependencies and run test
+    - name: Install Go Dependencies and Run Test
+      run: |
+        go mod init
+        go get github.com/franela/goblin
+        go mod tidy
+        go test -v
