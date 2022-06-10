@@ -50,8 +50,10 @@ jobs:
     # go get dependecncies
     # go mod tidy
     # can be replaced by 
-    # go build
+    # go build with go mod and go sum in the vm
     - name: Install Go Dependencies and Run Test
       run: |
-        go build
+        go mod init calc
+        go get github.com/franela/goblin
+        go mod tidy
         go test -v
