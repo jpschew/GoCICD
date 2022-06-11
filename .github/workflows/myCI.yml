@@ -102,7 +102,7 @@ jobs:
     - name: Send Telegram Message 
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAM_TO }}
+        to: ${{ secrets.TELEGRAM_TO }} # refering to chatid and not username
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           ${{ github.actor }} created commit:
@@ -111,3 +111,11 @@ jobs:
           Repository: ${{ github.repository }}
             
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          
+    # send whatsapp message via twilio      
+    - name: whatsapp-notify
+      uses: kaviadigdarshan/whatsapp-actions@main
+      env:
+        ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }} # took from twilio acct
+        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }} # took from twilio acct
+        TO_WHATSAPP_NUMBER: ${{ secrets.TO_WHATSAPP_NUMBER }}
