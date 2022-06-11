@@ -64,15 +64,14 @@ jobs:
       
     # install go dependencies and run test
     # go mod init calc
-    # go get dependecncies
+    # go get github.com/franela/goblin
     # go mod tidy
     # can be replaced by 
     # go build with go mod and go sum in the vm
     # install tebeka to convert test results to xml format
     - name: Install Go Dependencies and Run Test
       run: |
-        go mod init calc
-        go get github.com/franela/goblin
+        go build
         go install github.com/tebeka/go2xunit@latest 
         go mod tidy
         go test -v
