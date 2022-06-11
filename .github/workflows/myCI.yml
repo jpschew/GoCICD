@@ -97,3 +97,17 @@ jobs:
         assignees: ${{github.actor}} # actor is whoever trigger this yaml file
         labels: workflow-failed
         body: Workflow failed for commit ${{github.sha}} # sha is hashcode for commit
+        
+    # Send custom message and see the custom variable    
+    - name: Send Telegram Message 
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+            
+          Repository: ${{ github.repository }}
+            
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
